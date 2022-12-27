@@ -1,0 +1,45 @@
+<div class="surface-section px-4 py-8 md:px-6 lg:px-8 min-h-screen">
+  <div class="text-700 text-center mb-3">
+      <div class="text-blue-600 font-bold mb-5"><i class="pi pi-shopping-cart text-6xl"></i></div>
+      <div class="text-900 font-bold text-5xl mb-3">E-Commerce Web Scraper</div>
+      <div class="text-700 text-2xl mb-5">Scraping e-commerce websites (Tunisianet, Wiki, Oxtek) for products best matching the input description.</div>
+      <div class="grid">
+        <div class="col-12">
+          <input type="text" [(ngModel)]="keyword" class="p-inputtext-lg w-9" placeholder="Type your keyword (Exemple: Product name, reference...)"  pInputText />
+        </div>
+        <div class="col-12">
+          <button (click)="searchProductsByKeyword()" [loading]="spinner" pButton pRipple label="Search" icon="pi pi-search" class="font-bold px-5 py-3 p-button-raised p-button-rounded white-space-nowrap"></button>
+        </div>
+      </div>
+  </div>
+
+  <p-dataView #dv [value]="products" [rows]="9" layout="grid" emptyMessage="">
+    <ng-template let-product pTemplate="gridItem">
+        <div class="col-12 md:col-4">
+            <div class="product-grid-item card">
+                <div class="product-grid-item-top">
+                    <div>
+                        <i class="pi pi-tag product-category-icon"></i>
+                        <span class="product-category">{{product?.website}}</span>
+                    </div>
+                    <p-badge  severity="info"  severity="info" [value]="product?.availability"></p-badge>
+                </div>
+                <div class="product-grid-item-content">
+                    <img [src]="product?.img" [alt]="product?.name" height="400px"/>
+                    <div class="product-name">{{product?.name}}</div>
+                    <div class="product-description mt-3 mb-3">{{product?.reference}}</div>
+                </div>
+                <div class="product-grid-item-bottom">
+                    <span class="product-price">{{product?.price}}</span>
+                    <a [href]="product?.link"><p-button icon="pi pi-shopping-cart" label="Shop on Website"></p-button></a>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="empty">
+      <div *ngIf="products?.length == 0" class="text-center mt-5">
+        <h4>No matching results found.</h4>
+      </div>
+    </ng-template>
+</p-dataView>
+</div>
